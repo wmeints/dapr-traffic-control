@@ -189,98 +189,15 @@ You should now see logging in each of the shells, similar to the logging shown b
 
 ![VehicleRegistrationService logging](img/logging-vehicleregistrationservice.png)
 
-To see the emails that are sent by the FineCollectionService, open a browser and browse to [http://localhost:4000](http://localhost:4000). You should see the emails coming in:
+To see the emails that are sent by the FineCollectionService, open a browser and browse to 
+[http://localhost:4000](http://localhost:4000). You should see the emails coming in:
 
 ![Mailbox](img/mailbox.png)
 
-## Visual Camera Simulation
-
-This repository also contains a graphical version of the Camera Simulation:
-
-![Visual simulation](img/visualsim.png)
-
-The cars are all driving at different speeds and the simulation uses different "personas" to simulate drivers that tend to drive faster than others. They will also try to overtake where possible. These drivers are most likely to get a speeding ticket.
-
-The simulation runs in a web-browser. In order to start the web-application host and run the simulation, execute the following steps:
-
-1. Open a new command-shell.
-
-1. Change the current folder to the `src/VisualSimulation` folder of this repo.
-
-1. Execute the following command to run the Visual Camera Simulation:
-
-     ```console
-     dotnet run
-     ```
-
-1. Open a browser window and navigate to [http://localhost:5000](http://localhost:5000).
-
-1. Use the arrow keys to scroll and zoom in/out.
-
-## Run the application with Dapr actors
-
-The TrafficControlService has an alternative implementation based on Dapr actors. 
-
-The `TrafficController` in the TrafficControlService has 2 implementations of the `VehicleEntry` and `VehicleExit` methods. The top two methods contain all the code for handling vehicle registrations and storing vehicle state using the state management building block. The bottom two methods use a `VehicleActor` that does all the work. A new instance of the `VehicleActor` is created for each registered vehicle. In stead of using the state management building block, the actor uses its built-in `StateManager `.
-
-You can find the code of the actor in the file `src/TrafficControlService/Actors/VehicleActor.cs`.
-
-To use the actor based implementation, uncomment the statement that defines the `USE_ACTORMODEL` symbol at the top of the controller:
-
-```csharp
-#define USE_ACTORMODEL
-```
-
-Now you can restart the application just as before. The behavior is exactly the same, but you will see that the logging of the TrafficControlService will be emitted by the `VehicleActor`:  
-
-![](img/logging-trafficcontrolservice-actors.png)
-
-## Run the application on Kubernetes
-
-Execute the following steps to run the sample application on Kubernetes:
-
-1. Make sure you have installed Dapr on your machine on a Kubernetes cluster as described in the [Dapr documentation](https://docs.dapr.io/getting-started/install-dapr/).
-
-1. Open a new command-shell.
-
-1. Change the current folder to the `src/k8s` folder of this repo.
-
-1. Run the `build-docker-images.ps1` script. This script will build Docker images for all the services and a custom Mosquitto image used when running on Kubernetes.
-
-1. Execute the `start.ps1` script. All services will be created in the `dapr-trafficcontrol` namespace.
-
-You can check whether everything is running correctly by examining the container logs. There are several ways of doing that. Let's do it using the Docker CLI:
-
-1. Find out the container Id of the services:
-
-    ```console
-    docker ps
-    ```
-
-  > For every service, 2 containers will be running: the service and the Dapr sidecar. Make sure you pick the Id of a container running the .NET service and not the Dapr sidecar.
-
-1. View the log for each of the services (replace the Id with the Id of one of your services):
-
-    ```console
-    docker logs e2ed262f836e
-    ```
-
-To see the emails that are sent by the FineCollectionService, open a browser and browse to [http://localhost:30000](http://localhost:30000).
-
-To stop the application and remove everything from the Kubernetes cluster, execute the `stop.ps1` script.
-
-## Dapr for .NET Developers
-
-If you want to learn more about Dapr, read this book that was co-authored by the creator of this sample application:
-
-![Dapr for .NET Developers](img/dapr-for-net-devs-cover-thumb.png)
-
-[Dowload the PDF](https://aka.ms/dapr-ebook)  |  [Read it online](https://docs.microsoft.com/dotnet/architecture/dapr-for-net-developers/)
-
-Although the book is targeted at .NET developers, it covers all the concepts and generic APIs of Dapr. So it should also be useful for developers that use a different technology stack.
-
 ## Disclaimer
 
-The code in this repo is NOT production grade and lacks any automated testing. It is intentionally kept as simple as possible (KISS). Its primary purpose is demonstrating several Dapr concepts and not being a full fledged application that can be put into production as is.
+The code in this repo is NOT production grade and lacks any automated testing. It is intentionally kept as simple as
+possible (KISS). Its primary purpose is demonstrating several Dapr concepts and not being a full fledged application
+that can be put into production as is.
 
 The author can in no way be held liable for damage caused directly or indirectly by using this code.
