@@ -1,4 +1,5 @@
-from . import clients, models
+from . import clients, models, templates
+import requests
 
 
 class FineCalculator:
@@ -40,4 +41,27 @@ class ViolationProcessor:
         fine_text = "To be decided by the prosecutor" if fine == -1 else f"EUR {fine:.2f}"
         vehicle = self.vehicle_registrations.get_vehicle_info(violation.licenseNumber)
 
-        # TODO: Send the fine notification per email
+        message_body = templates.render(
+            "email.html",
+            owner=vehicle.ownerName,
+            date=violation.timestamp.date(),
+            time=violation.timestamp.time(),
+            license_number=vehicle.vehicleId,
+            brand=vehicle.make,
+            model=vehicle.model,
+            road_id=violation.roadId,
+            speed=violation.violationInKmh,
+            fine_text=fine_text
+        )
+
+        message_data = {
+            "data": message_body,
+            "operation": "create",
+            "metadata": {
+                    "subject": "Fine for exceeding the speed limit.",
+                    "emailTo": vehicle.ownerEmail,
+                    "emailFrom": "test@domain.org"
+            }
+        }
+
+        requests.post("http://localhost:3601/v1.0/bindings/sendmail", json=message_data)
