@@ -168,7 +168,7 @@ Start the services:
 12. Execute the following command to run the Camera Simulation:
 
      ```console
-     dotnet run
+     python simulation
      ```
 
 You should now see logging in each of the shells, similar to the logging shown below:
