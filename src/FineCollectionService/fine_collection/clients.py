@@ -16,8 +16,8 @@ class Vehicle(BaseModel):
 
 
 class VehicleRegistrationClient:
-    def __init__(self, base_address: str):
-        self.base_address = base_address
+    def __init__(self):
+        pass
 
     def get_vehicle_info(self, license_number: str) -> Vehicle:
         with DaprClient() as client:
@@ -25,7 +25,7 @@ class VehicleRegistrationClient:
                 app_id="vehicleregistrationservice",
                 method_name=f"vehicleinfo/{license_number}",
                 data=b'',
-                http_verb="get"
+                http_verb="GET"
             )
 
             return Vehicle.parse_raw(response.text())
