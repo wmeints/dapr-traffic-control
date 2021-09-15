@@ -8,8 +8,19 @@ app_settings = settings.ApplicationSettings()
 
 processor = services.ViolationProcessor(
     services.FineCalculator(), 
-    clients.VehicleRegistrationClient(app_settings.vehicle_registration_address)
+    clients.VehicleRegistrationClient()
 )
+
+
+@app.get("/dapr/subscribe")
+def subscribe():
+    subscription = [dict(
+       pubsubname="pubsub",
+       topic="speedingviolations",
+       route="/collectfine"
+    )]
+
+    return subscription
 
 
 @app.post("/collectfine")
