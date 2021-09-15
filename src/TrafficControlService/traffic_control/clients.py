@@ -1,12 +1,13 @@
-from dapr.clients import DaprClient
 from . import models
+from dapr.clients import DaprClient
 
 
 class FineCollectionClient:
+    def __init__(self, base_address: str):
+        self.base_address = base_address
+
     def collect_fine(self, violation: models.SpeedingViolation):
         with DaprClient() as client:
-            client.invoke_method(
-                app_id="finecollectionservice",
-                method_name="collectfine",
-                data=violation.json()
+            client.publish_event(
+                "pubsub", "speedingviolations", violation.json()
             )
