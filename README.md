@@ -1,13 +1,13 @@
 # Dapr Traffic Control Sample
 
-| Attribute            | Details                   |
-| -------------------- | ------------------------- |
-| Dapr runtime version | v1.3.0                    |
-| Dapr.NET SDK version | v1.3.0                    |
-| Dapr CLI version     | v1.3.0                    |
-| Language             | Python                    |
-| Platform             | Python 3.9                |
-| Environment          | Self hosted or Kubernetes |
+| Attribute               | Details                   |
+| ----------------------- | ------------------------- |
+| Dapr runtime version    | v1.4.3                    |
+| Dapr Python SDK version | v1.3.0                    |
+| Dapr CLI version        | v1.4.0                    |
+| Language                | Python                    |
+| Platform                | Python 3.9                |
+| Environment             | Self hosted or Kubernetes |
 
 This repository contains a sample application that simulates a traffic-control system using Dapr. For this sample I've
 used a speeding-camera setup as can be found on several Dutch highways. A set of cameras are placed at the beginning
