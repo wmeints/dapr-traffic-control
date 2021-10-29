@@ -1,5 +1,5 @@
-from . import clients, models, templates
 import requests
+from . import clients, models, templates
 
 
 class FineCalculator:

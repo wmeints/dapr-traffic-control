@@ -8,7 +8,8 @@ class ClientError(Exception):
 
 
 class TrafficControlClient:
-    def __init__(self):
+    def __init__(self, base_address: str):
+        self.base_address = base_address
         self.messaging_adapter = Client(client_id="simulation")
         self.messaging_adapter.connect("localhost")
 
